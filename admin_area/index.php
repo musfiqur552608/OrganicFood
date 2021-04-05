@@ -83,6 +83,13 @@
                     if(isset($_GET['view_products'])){
                         include("view_products.php");
                     }
+                    if(isset($_GET['delete_product'])){
+                        include("delete_product.php");
+                    }
+                    if(isset($_GET['edit_product'])){
+                        include("edit_product.php");
+                    }
+                    
                 ?>
             </div>
         </div>
