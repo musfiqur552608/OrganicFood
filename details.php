@@ -11,6 +11,10 @@
                     <li>
                         Shop
                     </li>
+                    <li>
+                        <a href="shop.php?p_cat=<?php echo $p_cat_id; ?>"><?php echo $p_cat_title; ?></a>
+                    </li>
+                    <li> <?php echo $pro_title; ?></li>
                 </ul>
            </div>
            <div class="col-md-3">
@@ -34,13 +38,13 @@
 
                                <div class="carousel-inner">
                                    <div class="item active">
-                                       <center><img class="img-responsive" src="admin_area/product_images/product-3.jpg" alt="Product 3"></center>
+                                       <center><img class="img-responsive" src="admin_area/product_images/<?php echo $pro_img1; ?>" alt="Product 3"></center>
                                    </div>
                                    <div class="item">
-                                       <center><img class="img-responsive" src="admin_area/product_images/product-3a.jpg" alt="Product 3a"></center>
+                                       <center><img class="img-responsive" src="admin_area/product_images/<?php echo $pro_img2; ?>" alt="Product 3a"></center>
                                    </div>
                                    <div class="item">
-                                       <center><img class="img-responsive" src="admin_area/product_images/product-3b.jpg" alt="Product 3b"></center>
+                                       <center><img class="img-responsive" src="admin_area/product_images/<?php echo $pro_img3; ?>" alt="Product 3b"></center>
                                    </div>
                                </div>
 
@@ -59,8 +63,9 @@
 
                     <div class="col-sm-6">
                         <div class="box">
-                            <h1 class="text center">Orginal Orange</h1>
-                            <form action="" class="form-horizontal" method="post">
+                            <h1 class="text-center"><?php echo $pro_title; ?></h1>
+                            <?php add_cart() ?>
+                            <form action="details.php?add_cart=<?php echo $product_id; ?>" class="form-horizontal" method="post">
                                 <div class="form-group">
                                     <label for="" class="col-md-5 control-label">Product Quantity</label>
                                     <div class="col-md-7">
@@ -76,16 +81,20 @@
                                 <div class="form-group">
                                     <label class="col-md-5 control-label">Product Size</label>
 
-                                    <div class="col-md-7">
-                                        <select name="product_size" class="form-control">
-                                            <option>Select a size</option>
-                                            <option>Small</option>
-                                            <option>Medium</option>
-                                            <option>Large</option>
-                                        </select>
-                                    </div>
+                                    <div class="col-md-7"><!-- col-md-7 Begin -->
+                                       
+                                       <select name="product_size" class="form-control" required"><!-- form-control Begin -->
+                                          
+                                           <option disabled selected>Select a Size</option>
+                                           <option>Small</option>
+                                           <option>Medium</option>
+                                           <option>Large</option>
+                                           
+                                       </select><!-- form-control Finish -->
+                                       
+                                   </div><!-- col-md-7 Finish -->
                                 </div>
-                                <p class="price"> $50</p>
+                                <p class="price"> ৳ <?php echo $pro_price; ?></p>
                                 <p class="text-center buttons"><button class="btn btn-primary i fa fa-shopping-cart">Add To Cart</button></p>
                             </form>
                         </div>
@@ -93,19 +102,19 @@
                            
                            <div class="col-xs-4"><!-- col-xs-4 Begin -->
                                <a href="#" class="thumb"><!-- thumb Begin -->
-                                   <img data-target="#myCarousel" data-slide-to="0" src="admin_area/product_images/product-3.jpg" alt="product 1" class="img-responsive">
+                                   <img data-target="#myCarousel" data-slide-to="0" src="admin_area/product_images/<?php echo $pro_img1; ?>" alt="product 1" class="img-responsive">
                                </a><!-- thumb Finish -->
                            </div><!-- col-xs-4 Finish -->
                            
                            <div class="col-xs-4"><!-- col-xs-4 Begin -->
                                <a href="#" class="thumb"><!-- thumb Begin -->
-                                   <img data-target="#myCarousel" data-slide-to="1" src="admin_area/product_images/product-3a.jpg" alt="product 2" class="img-responsive">
+                                   <img data-target="#myCarousel" data-slide-to="1" src="admin_area/product_images/<?php echo $pro_img2; ?>" alt="product 2" class="img-responsive">
                                </a><!-- thumb Finish -->
                            </div><!-- col-xs-4 Finish -->
                            
                            <div class="col-xs-4"><!-- col-xs-4 Begin -->
                                <a href="#" class="thumb"><!-- thumb Begin -->
-                                   <img data-target="#myCarousel" data-slide-to="2" src="admin_area/product_images/Product-3b.jpg" alt="product 4" class="img-responsive">
+                                   <img data-target="#myCarousel" data-slide-to="2" src="admin_area/product_images/<?php echo $pro_img3; ?>" alt="product 4" class="img-responsive">
                                </a><!-- thumb Finish -->
                            </div><!-- col-xs-4 Finish -->
                            
@@ -117,7 +126,7 @@
                 <div class="box" id="details">
                     <h4>Products Details</h4>
                     <p>
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatum fugit, nesciunt ea ad nulla nobis id eius veritatis dolores accusantium sapiente. Ab dolorum earum veritatis enim minus harum illo aut.
+                        <?php echo $pro_desc; ?>
                     </p>
                     <h4>Size</h4>
                     <ul>
@@ -135,46 +144,33 @@
                         </div>
                     </div>
 
-                    <div class="col-md-3 col-sm-6 center-responsive">
-                        <div class="product same-height">
-                            <a href="details.php">
-                                <img class="img-responsive" src="admin_area/product_images/product-6.jpg" alt="Product 6">
-                            </a>
+                    <?php 
+                        $get_products = "select * from products order by rand() LIMIT 0,3";
+                        $run_products = mysqli_query($con,$get_products);
 
-                            <div class="text">
-                                <h3><a href="details.php">Pear</a></h3>
+                        while($row_products=mysqli_fetch_array($run_products)){
+                            $pro_id = $row_products['product_id'];
+                            $pro_title = $row_products['product_title'];
+                            $pro_img1 = $row_products['product_img1'];
+                            $pro_price = $row_products['product_price'];
 
-                                <p class="price">$40</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-6 center-responsive">
-                        <div class="product same-height">
-                            <a href="details.php">
-                                <img class="img-responsive" src="admin_area/product_images/product-5.jpg" alt="Product 6">
-                            </a>
+                            echo "
+                                <div class='col-md-3 col-sm-6 center-responsive'>
+                                    <div class='product same-height'>
+                                        <a href='details.php?pro_id=$pro_id'>
+                                            <img class='img-responsive' src='admin_area/product_images/$pro_img1'>
+                                        </a>
+                                        <div class='text'>
+                                            <h3> <a href='details.php?pro_id=$pro_id'> $pro_title </a> </h3>
+                                            <p class='price'> ৳ $pro_price </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            ";
 
-                            <div class="text">
-                                <h3><a href="details.php">Savoy Cabbage</a></h3>
-
-                                <p class="price">$30</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-6 center-responsive">
-                        <div class="product same-height">
-                            <a href="details.php">
-                                <img class="img-responsive" src="admin_area/product_images/product-2.jpg" alt="Product 6">
-                            </a>
-
-                            <div class="text">
-                                <h3><a href="details.php">Sravery</a></h3>
-
-                                <p class="price">$30</p>
-                            </div>
-                        </div>
-                    </div>
-
+                        }
+                    ?>
+                    
                 </div>
 
            </div>

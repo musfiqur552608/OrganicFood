@@ -1,6 +1,8 @@
 <?php 
 
-include("includes/db.php");
+    if(!isset($_SESSION['admin_email'])){
+        echo "<script>window.open('login.php','_self')</script>";
+    }else{
 
 ?>
 
@@ -10,8 +12,6 @@ include("includes/db.php");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title> Insert Products </title>
-    <link rel="stylesheet" href="css/bootstrap-337.min.css">
-    <link rel="stylesheet" href="font-awsome/css/font-awesome.min.css">
 </head>
 <body>
     
@@ -231,8 +231,6 @@ include("includes/db.php");
     
 </div><!-- row Finish -->
         
-    <script src="js/jquery-331.min.js"></script>
-    <script src="js/bootstrap-337.min.js"></script> 
     <script src="js/tinymce/tinymce.min.js"></script>
     <script>tinymce.init({ selector:'textarea'});</script>
 </body>
@@ -269,10 +267,11 @@ if(isset($_POST['submit'])){
     if($run_product){
         
         echo "<script>alert('Product has been inserted sucessfully')</script>";
-        echo "<script>window.open('insert_product.php','_self')</script>";
+        echo "<script>window.open('index.php?view_products','_self')</script>";
         
     }
     
 }
 
 ?>
+<?php } ?>
