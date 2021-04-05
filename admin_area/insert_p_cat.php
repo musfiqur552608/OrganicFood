@@ -21,7 +21,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title">
-                    <i class="fa fa-money fa-fw"></i> Insert Category
+                    <i class="fa fa-money fa-fw"></i> Insert Product Category
                 </h3>
             </div>
             <div class="panel-body">
