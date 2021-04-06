@@ -116,6 +116,19 @@
                     if(isset($_GET['insert_slide'])){
                         include("insert_slide.php");
                     }
+                    if(isset($_GET['view_slides'])){
+                        include("view_slides.php");
+                    }
+                    if(isset($_GET['delete_slide'])){
+                        
+                        include("delete_slide.php");
+                        
+                    }   
+                    if(isset($_GET['edit_slide'])){
+                            
+                            include("edit_slide.php");
+                            
+                    }
 
                                       
                 ?>
