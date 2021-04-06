@@ -101,6 +101,9 @@
                     if(isset($_GET['edit_p_cat'])){
                         include("edit_p_cat.php");
                     }
+                    if(isset($_GET['insert_cat'])){
+                        include("insert_cat.php");
+                    }
                     
                 ?>
             </div>
