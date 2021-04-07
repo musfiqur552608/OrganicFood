@@ -149,6 +149,36 @@
                         include("delete_order.php");
                         
                     }
+                    if(isset($_GET['view_payments'])){
+                            
+                        include("view_payments.php");
+                        
+                    }
+                    if(isset($_GET['delete_payment'])){
+                            
+                        include("delete_payment.php");
+                        
+                    }
+                    if(isset($_GET['view_users'])){
+                            
+                        include("view_users.php");
+                        
+                    }
+                    if(isset($_GET['delete_user'])){
+                            
+                        include("delete_user.php");
+                        
+                    }
+                    if(isset($_GET['insert_user'])){
+                            
+                        include("insert_user.php");
+                        
+                    }
+                    if(isset($_GET['user_profile'])){
+                            
+                        include("user_profile.php");
+                        
+                    }
 
                                       
                 ?>
