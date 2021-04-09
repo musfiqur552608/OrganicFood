@@ -23,6 +23,8 @@
         $slide_id = $row_edit_slide['slider_id'];
         
         $slide_name = $row_edit_slide['slider_name'];
+
+        $slide_url = $row_edit_slide['slide_url'];
         
         $slide_image = $row_edit_slide['slider_image'];
         
@@ -74,6 +76,21 @@
                     
                         <label for="" class="control-label col-md-3"><!-- control-label col-md-3 begin --> 
                         
+                            Slide Url 
+                        
+                        </label><!-- control-label col-md-3 finish --> 
+                        
+                        <div class="col-md-6"><!-- col-md-6 begin -->
+                        
+                            <input name="slide_url" type="text" class="form-control" value="<?php echo $slide_url; ?>">
+                        
+                        </div><!-- col-md-6 finish -->
+                    
+                    </div><!-- form-group finish -->
+                    <div class="form-group"><!-- form-group begin -->
+                    
+                        <label for="" class="control-label col-md-3"><!-- control-label col-md-3 begin --> 
+                        
                             Slide Image
                         
                         </label><!-- control-label col-md-3 finish --> 
@@ -112,6 +129,8 @@
     if(isset($_POST['update'])){
         
         $slide_name = $_POST['slide_name'];
+
+        $slide_url = $_POST['slide_url'];
         
         $slide_image = $_FILES['slide_image']['name'];
         
@@ -119,7 +138,7 @@
         
         move_uploaded_file($temp_name,"slides_images/$slide_image");
         
-        $update_slide = "update slider set slider_name='$slide_name',slider_image='$slide_image' where slider_id='$slide_id'";
+        $update_slide = "update slider set slider_name='$slide_name',slide_url='$slide_url',slider_image='$slide_image' where slider_id='$slide_id'";
         
         $run_update_slide = mysqli_query($con,$update_slide);
         
