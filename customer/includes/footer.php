@@ -35,6 +35,7 @@
                         }
                     ?>
                     </li>
+                    <li><a href="../terms.php">Terms & Condditions</a></li>
                 </ul>
                 <hr class="hidden-md hidden-lg hidden-sm">
             </div>

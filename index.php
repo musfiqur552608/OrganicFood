@@ -88,40 +88,34 @@
     <div id="advantage">
         <div class="container">
             <div class="same-height-row">
-            <div class="col-sm-4">
+            <?php
+            
+                   $get_boxes = "select * from boxes_section";
+
+                   $run_boxes = mysqli_query($con,$get_boxes);
+
+                   while($run_boxes_section=mysqli_fetch_array($run_boxes)){
+
+                        $box_id = $run_boxes_section['box_id'];
+
+                        $box_title = $run_boxes_section['box_title'];
+
+                        $box_desc = $run_boxes_section['box_desc'];
+     
+            ?>
+                <div class="col-sm-4">
                     <div class="box same-height">
                         <div class="icon">
                             <i class="fa fa-heart"></i>
                         </div>
 
-                        <h3><a href="#">We love our customers</a></h3>
-                        <p>We know to provide the best posible service ever</p>
+                        <h3><a href="#"><?php echo $box_title; ?></a></h3>
+                        <p><?php echo $box_desc; ?></p>
 
                     </div>
+            
                 </div>
-                <div class="col-sm-4">
-                    <div class="box same-height">
-                        <div class="icon">
-                            <i class="fa fa-tag"></i>
-                        </div>
-
-                        <h3><a href="#">Best Prices</a></h3>
-                        <p>Compare us with anther site, who have the best prices.</p>
-                        
-
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="box same-height">
-                        <div class="icon">
-                            <i class="fa fa-thumbs-up"></i>
-                        </div>
-
-                        <h3><a href="#">100% Organic Products</a></h3>
-                        <p>We just offer you the best and orginal products</p>
-
-                    </div>
-                </div>
+                <?php } ?>
             </div>
         </div>
     </div>

@@ -139,6 +139,34 @@
                 </ul>
             </li>
             <li>
+                <a href="#" data-toggle="collapse" data-target="#boxes">
+                    <i class="fa fa-fw fa-dropbox"></i> Boxes
+                    <i class="fa fa-fw fa-caret-down"></i>
+                </a>
+                <ul class="collapse" id="boxes">
+                    <li>
+                        <a href="index.php?insert_box"> Insert Box</a>
+                    </li>
+                    <li>
+                        <a href="index.php?view_boxes"> View Boxes</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#" data-toggle="collapse" data-target="#terms">
+                    <i class="fa fa-fw fa-table"></i> Terms
+                    <i class="fa fa-fw fa-caret-down"></i>
+                </a>
+                <ul class="collapse" id="terms">
+                    <li>
+                        <a href="index.php?insert_term"> Insert Term</a>
+                    </li>
+                    <li>
+                        <a href="index.php?view_terms"> View Terms</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
                 <a href="index.php?view_customers">
                     <i class="fa fa-fw fa-users"></i> View Customers
                 </a>
