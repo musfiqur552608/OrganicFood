@@ -13,7 +13,7 @@
         <ol class="breadcrumb"><!-- breadcrumb begin -->
             <li>
                 
-                <i class="fa fa-dashboard"></i> Dashboard / Insert Product Category
+                <i class="fa fa-dashboard"></i> Dashboard / Insert Manufacturer
                 
             </li>
         </ol><!-- breadcrumb finish -->
@@ -26,29 +26,28 @@
             <div class="panel-heading"><!-- panel-heading begin -->
                 <h3 class="panel-title"><!-- panel-title begin -->
                 
-                    <i class="fa fa-money fa-fw"></i> Insert Product Category
+                    <i class="fa fa-money fa-fw"></i> Insert Manufacturer
                 
                 </h3><!-- panel-title finish -->
             </div><!-- panel-heading finish -->
             
             <div class="panel-body"><!-- panel-body begin -->
                 <form action="" class="form-horizontal" method="post" enctype="multipart/form-data"><!-- form-horizontal begin -->
-                    <div class="form-group"><!-- form-group begin -->
+                    <div class="form-group"><!-- form-group 1 begin -->
                     
                         <label for="" class="control-label col-md-3"><!-- control-label col-md-3 begin --> 
                         
-                            Product Category Title 
+                        Manufacturer Name 
                         
                         </label><!-- control-label col-md-3 finish --> 
                         
                         <div class="col-md-6"><!-- col-md-6 begin -->
                         
-                            <input name="p_cat_title" type="text" class="form-control">
+                            <input name="manufacturer_name" type="text" class="form-control">
                         
                         </div><!-- col-md-6 finish -->
                     
-                    </div><!-- form-group finish -->
-                    
+                    </div><!-- form-group 1 finish -->
                     <div class="form-group"><!-- form-group 2 begin -->
                     
                         <label for="" class="control-label col-md-3"><!-- control-label col-md-3 begin --> 
@@ -59,45 +58,41 @@
                         
                         <div class="col-md-6"><!-- col-md-6 begin -->
                         
-                            <input name="p_cat_top" type="radio" value="yes">
+                            <input name="manufacturer_top" type="radio" value="yes">
                             <label>Yes</label>
                         
-                            <input name="p_cat_top" type="radio" value="no">
+                            <input name="manufacturer_top" type="radio" value="no">
                             <label>No</label>
                         
                         </div><!-- col-md-6 finish -->
                     
                     </div><!-- form-group 2 finish -->
-                    
                     <div class="form-group"><!-- form-group 3 begin -->
                     
                         <label for="" class="control-label col-md-3"><!-- control-label col-md-3 begin --> 
                         
-                        Product Category Image
+                        Manufacturer Image
                         
                         </label><!-- control-label col-md-3 finish --> 
                         
                         <div class="col-md-6"><!-- col-md-6 begin -->
                         
-                            <input type="file" name="p_cat_image" class="form-control">
+                            <input type="file" name="manufacturer_image" class="form-control">
                         
                         </div><!-- col-md-6 finish -->
                     
                     </div><!-- form-group 3 finish -->
+                    <div class="form-group"><!-- form-group 4 begin -->
                     
-                    <div class="form-group"><!-- form-group begin -->
-                    
-                        <label for="" class="control-label col-md-3"><!-- control-label col-md-3 begin --> 
-                        
-                        </label><!-- control-label col-md-3 finish --> 
+                        <label for="" class="control-label col-md-3"><!-- control-label col-md-3 begin --></label><!-- control-label col-md-3 finish --> 
                         
                         <div class="col-md-6"><!-- col-md-6 begin -->
                         
-                            <input value="Submit Product Category" name="submit" type="submit" class="form-control btn btn-primary">
+                            <input type="submit" name="submit" value="Submit Manufacturer" class="btn btn-primary form-control">
                         
                         </div><!-- col-md-6 finish -->
                     
-                    </div><!-- form-group finish -->
+                    </div><!-- form-group 4 finish -->
                 </form><!-- form-horizontal finish -->
             </div><!-- panel-body finish -->
             
@@ -107,34 +102,28 @@
 
 <?php  
 
-          if(isset($_POST['submit'])){
-              
-              $p_cat_title = $_POST['p_cat_title'];
-              
-              $p_cat_top = $_POST['p_cat_top'];
-              
-              $p_cat_image = $_FILES['p_cat_image']['name'];
-              
-              $temp_name = $_FILES['p_cat_image']['tmp_name'];
-
-              move_uploaded_file($temp_name,"other_images/$p_cat_image");
-              
-              $insert_p_cat = "insert into product_categories (p_cat_title,p_cat_top,p_cat_image) values ('$p_cat_title','$p_cat_top','$p_cat_image')";
-              
-              $run_p_cat = mysqli_query($con,$insert_p_cat);
-              
-              if($run_p_cat){
-                  
-                  echo "<script>alert('Your New Product Category Has Been Inserted')</script>";
-                  
-                  echo "<script>window.open('index.php?view_p_cats','_self')</script>";
-                  
-              }
-              
-          }
+    if(isset($_POST['submit'])){
+        
+        $manufacturer_name = $_POST['manufacturer_name'];
+        
+        $manufacturer_top = $_POST['manufacturer_top'];
+        
+        $manufacturer_image = $_FILES['manufacturer_image']['name'];
+        
+        $temp_name = $_FILES['manufacturer_image']['tmp_name'];
+            
+        move_uploaded_file($temp_name,"other_images/$manufacturer_image");
+        
+        $insert_manufacturer = "insert into manufacturers (manufacturer_title,manufacturer_top,manufacturer_image) values ('$manufacturer_name','$manufacturer_top','$manufacturer_image')";
+        
+        $run_manufacturer = mysqli_query($con,$insert_manufacturer);
+        
+        echo "<script>alert('Your new manufacturer has been inserted')</script>";
+        
+        echo "<script>window.open('index.php?view_manufacturers','_self')</script>";
+        
+    }
 
 ?>
 
-
-
-<?php } ?> 
+<?php } ?>

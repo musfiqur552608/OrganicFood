@@ -1,9 +1,204 @@
 <?php 
 
-    $active='Cart';
-    include("includes/header.php");
+session_start();
+
+$active='Cart';
+
+include("includes/db.php");
+include("functions/functions.php");
 
 ?>
+
+<body>
+   
+   <div id="top"><!-- Top Begin -->
+       
+       <div class="container"><!-- container Begin -->
+           
+           <div class="col-md-6 offer"><!-- col-md-6 offer Begin -->
+               
+               <a href="#" class="btn btn-success btn-sm">
+                   
+                   <?php 
+                   
+                   if(!isset($_SESSION['customer_email'])){
+                       
+                       echo "Welcome: Guest";
+                       
+                   }else{
+                       
+                       echo "Welcome: " . $_SESSION['customer_email'] . "";
+                       
+                   }
+                   
+                   ?>
+                   
+               </a>
+               <a href="checkout.php"><?php items(); ?> Items In Your Cart | Total Price: <?php total_price(); ?> </a>
+               
+           </div><!-- col-md-6 offer Finish -->
+           
+           <div class="col-md-6"><!-- col-md-6 Begin -->
+               
+               <ul class="menu"><!-- cmenu Begin -->
+                   
+                   <li>
+                       <a href="customer_register.php">Register</a>
+                   </li>
+                   <li>
+                       <a href="checkout.php">My Account</a>
+                   </li>
+                   <li>
+                       <a href="cart.php">Go To Cart</a>
+                   </li>
+                   <li>
+                       <a href="checkout.php">
+                           
+                           <?php 
+                           
+                           if(!isset($_SESSION['customer_email'])){
+                       
+                                echo "<a href='checkout.php'> Login </a>";
+
+                               }else{
+
+                                echo " <a href='logout.php'> Log Out </a> ";
+
+                               }
+                           
+                           ?>
+                           
+                       </a>
+                   </li>
+                   
+               </ul><!-- menu Finish -->
+               
+           </div><!-- col-md-6 Finish -->
+           
+       </div><!-- container Finish -->
+       
+   </div><!-- Top Finish -->
+   
+   <div id="navbar" class="navbar navbar-default"><!-- navbar navbar-default Begin -->
+       
+       <div class="container"><!-- container Begin -->
+           
+           <div class="navbar-header"><!-- navbar-header Begin -->
+               
+               <a href="index.php" class="navbar-brand home"><!-- navbar-brand home Begin -->
+                   
+                    <img src="images/mobile.jpg" height="49px" width="125px" alt="Organic Food Logo" class="hidden-xs">
+                    <img src="images/organic.png" height="33px" width="83px" alt="Organic Food Logo Mobile" class="visible-xs">
+                   
+               </a><!-- navbar-brand home Finish -->
+               
+               <button class="navbar-toggle" data-toggle="collapse" data-target="#navigation">
+                   
+                   <span class="sr-only">Toggle Navigation</span>
+                   
+                   <i class="fa fa-align-justify"></i>
+                   
+               </button>
+               
+               <button class="navbar-toggle" data-toggle="collapse" data-target="#search">
+                   
+                   <span class="sr-only">Toggle Search</span>
+                   
+                   <i class="fa fa-search"></i>
+                   
+               </button>
+               
+           </div><!-- navbar-header Finish -->
+           
+           <div class="navbar-collapse collapse" id="navigation"><!-- navbar-collapse collapse Begin -->
+               
+               <div class="padding-nav"><!-- padding-nav Begin -->
+                   
+                   <ul class="nav navbar-nav left"><!-- nav navbar-nav left Begin -->
+                       
+                       <li class="<?php if($active=='Home') echo"active"; ?>">
+                           <a href="index.php">Home</a>
+                       </li>
+                       <li class="<?php if($active=='Shop') echo"active"; ?>">
+                           <a href="shop.php">Shop</a>
+                       </li>
+                       <li class="<?php if($active=='Account') echo"active"; ?>">
+                           
+                           <?php 
+                           
+                           if(!isset($_SESSION['customer_email'])){
+                               
+                               echo"<a href='checkout.php'>My Account</a>";
+                               
+                           }else{
+                               
+                              echo"<a href='customer/my_account.php?my_orders'>My Account</a>"; 
+                               
+                           }
+                           
+                           ?>
+                           
+                       </li>
+                       <li class="<?php if($active=='Cart') echo"active"; ?>">
+                           <a href="cart.php">Shopping Cart</a>
+                       </li>
+                       <li class="<?php if($active=='Contact') echo"active"; ?>">
+                           <a href="contact.php">Contact Us</a>
+                       </li>
+                       
+                   </ul><!-- nav navbar-nav left Finish -->
+                   
+               </div><!-- padding-nav Finish -->
+               
+               <a href="cart.php" class="btn navbar-btn btn-primary right"><!-- btn navbar-btn btn-primary Begin -->
+                   
+                   <i class="fa fa-shopping-cart"></i>
+                   
+                   <span><?php items(); ?> Items In Your Cart</span>
+                   
+               </a><!-- btn navbar-btn btn-primary Finish -->
+               
+               <div class="navbar-collapse collapse right"><!-- navbar-collapse collapse right Begin -->
+                   
+                   <button class="btn btn-primary navbar-btn" type="button" data-toggle="collapse" data-target="#search"><!-- btn btn-primary navbar-btn Begin -->
+                       
+                       <span class="sr-only">Toggle Search</span>
+                       
+                       <i class="fa fa-search"></i>
+                       
+                   </button><!-- btn btn-primary navbar-btn Finish -->
+                   
+               </div><!-- navbar-collapse collapse right Finish -->
+               
+               <div class="collapse clearfix" id="search"><!-- collapse clearfix Begin -->
+                   
+                   <form method="get" action="results.php" class="navbar-form"><!-- navbar-form Begin -->
+                       
+                       <div class="input-group"><!-- input-group Begin -->
+                           
+                           <input type="text" class="form-control" placeholder="Search" name="user_query" required>
+                           
+                           <span class="input-group-btn"><!-- input-group-btn Begin -->
+                           
+                           <button type="submit" name="search" value="Search" class="btn btn-primary"><!-- btn btn-primary Begin -->
+                               
+                               <i class="fa fa-search"></i>
+                               
+                           </button><!-- btn btn-primary Finish -->
+                           
+                           </span><!-- input-group-btn Finish -->
+                           
+                       </div><!-- input-group Finish -->
+                       
+                   </form><!-- navbar-form Finish -->
+                   
+               </div><!-- collapse clearfix Finish -->
+               
+           </div><!-- navbar-collapse collapse Finish -->
+           
+       </div><!-- container Finish -->
+       
+   </div><!-- navbar navbar-default Finish -->
    
    <div id="content"><!-- #content Begin -->
        <div class="container"><!-- container Begin -->
@@ -88,10 +283,8 @@
                                            $product_img1 = $row_products['product_img1'];
                                            
                                            $only_price = $row_products['product_price'];
-
-                                           $pro_url = $row_products['product_url'];
                                            
-                                           $sub_total = $pro_sale * $pro_qty;
+                                           $sub_total = $pro_sale*$pro_qty;
 
                                            $_SESSION['pro_qty'] = $pro_qty;
                                            
@@ -109,7 +302,7 @@
                                        
                                        <td>
                                            
-                                           <a href="<?php echo $pro_url; ?>"> <?php echo $product_title; ?> </a>
+                                           <a href="details.php?pro_id=<?php echo $pro_id; ?>"> <?php echo $product_title; ?> </a>
                                            
                                        </td>
                                        
@@ -139,7 +332,7 @@
                                        
                                        <td>
                                            
-                                           ৳<?php echo $sub_total; ?>
+                                           $<?php echo $sub_total; ?>
                                            
                                        </td>
                                        
@@ -154,23 +347,13 @@
                                    <tr><!-- tr Begin -->
                                        
                                        <th colspan="5">Total</th>
-                                       <th colspan="2">৳<?php echo $total; ?></th>
+                                       <th colspan="2">$<?php echo $total; ?></th>
                                        
                                    </tr><!-- tr Finish -->
                                    
                                </tfoot><!-- tfoot Finish -->
                                
                            </table><!-- table Finish -->
-
-                           <div class="form-inline pull-right"><!-- form-inline Begin -->
-                               <div class="form-group"><!-- form-group Begin -->
-
-                                    <label> Coupon Code: </label>
-                                    <input type="text" name="code" class="form-control">
-                                    <input type="submit" class="btn btn-primary" value="Use Coupon" name="apply_coupon">
-                               
-                               </div><!-- form-group Finish -->
-                           </div><!-- form-inline Finish -->
                            
                        </div><!-- table-responsive Finish -->
                        
@@ -207,69 +390,6 @@
                    </form><!-- form Finish -->
                    
                </div><!-- box Finish -->
-
-               <?php 
-               
-                    if(isset($_POST['apply_coupon'])){
-
-                        $code = $_POST['code'];
-
-                        if($code == ""){
-
-                        }else{
-
-                            $get_coupons = "select * from coupons where coupon_code='$code'";
-                            $run_coupons = mysqli_query($con,$get_coupons);
-                            $check_coupons = mysqli_num_rows($run_coupons);
-
-                            if($check_coupons == "1"){
-
-                                $row_coupons = mysqli_fetch_array($run_coupons);
-
-                                $coupon_pro_id = $row_coupons['product_id'];
-                                $coupon_price = $row_coupons['coupon_price'];
-                                $coupon_limit = $row_coupons['coupon_limit'];
-                                $coupon_used = $row_coupons['coupon_used'];
-
-                                if($coupon_limit == $coupon_used){
-
-                                    echo "<script>alert('Your Coupon Already Expired')</script>";
-
-                                }else{
-
-                                    $get_cart = "select * from cart where p_id='$coupon_pro_id' AND ip_add='$ip_add'";
-                                    $run_cart = mysqli_query($con,$get_cart);
-                                    $check_cart = mysqli_num_rows($run_cart);
-
-                                    if($check_cart == "1"){
-
-                                        $add_used = "update coupons set coupon_used=coupon_used+1 where coupon_code='$code'";
-                                        $run_used = mysqli_query($con,$add_used);
-                                        $update_cart = "update cart set p_price='$coupon_price' where p_id='$coupon_pro_id' AND ip_add='$ip_add'";
-                                        $run_update_cart = mysqli_query($con,$update_cart);
-
-                                        echo "<script>alert('Your Coupon Has Been Applied')</script>";
-                                        echo "<script>window.open('cart.php','_self')</script>";
-
-                                    }else{
-
-                                        echo "<script>alert('Your Coupon Didnt Match With Your Product On Your Cart')</script>";
-
-                                    }
-
-                                }
-
-                            }else{
-
-                                echo "<script>alert('You Coupon Is Not Valid')</script>";
-
-                            }
-
-                        }
-
-                    }
-               
-               ?>
                
                <?php 
                
@@ -323,8 +443,6 @@
                     $pro_price = $row_products['product_price'];
             
                     $pro_sale_price = $row_products['product_sale'];
-
-                    $pro_url = $row_products['product_url'];
                     
                     $pro_img1 = $row_products['product_img1'];
                     
@@ -342,13 +460,13 @@
             
                     if($pro_label == "sale"){
             
-                        $product_price = " <del> ৳ $pro_price </del> ";
+                        $product_price = " <del> $ $pro_price </del> ";
             
-                        $product_sale_price = "/ ৳ $pro_sale_price ";
+                        $product_sale_price = "/ $ $pro_sale_price ";
             
                     }else{
             
-                        $product_price = "  ৳ $pro_price  ";
+                        $product_price = "  $ $pro_price  ";
             
                         $product_sale_price = "";
             
@@ -377,7 +495,7 @@
                     
                         <div class='product'>
                         
-                            <a href='$pro_url'>
+                            <a href='details.php?pro_id=$pro_id'>
                             
                                 <img class='img-responsive' src='admin_area/product_images/$pro_img1'>
                             
@@ -393,7 +511,7 @@
                             
                                 <h3>
                         
-                                    <a href='$pro_url'>
+                                    <a href='details.php?pro_id=$pro_id'>
             
                                         $pro_title
             
@@ -409,13 +527,13 @@
                                 
                                 <p class='button'>
                                 
-                                    <a class='btn btn-default' href='$pro_url'>
+                                    <a class='btn btn-default' href='details.php?pro_id=$pro_id'>
             
                                         View Details
             
                                     </a>
                                 
-                                    <a class='btn btn-primary' href='$pro_url'>
+                                    <a class='btn btn-primary' href='details.php?pro_id=$pro_id'>
             
                                         <i class='fa fa-shopping-cart'></i> Add to Cart
             
@@ -466,28 +584,28 @@
                                <tr><!-- tr Begin -->
                                    
                                    <td> Order All Sub-Total </td>
-                                   <th> ৳<?php echo $total; ?> </th>
+                                   <th> $<?php echo $total; ?> </th>
                                    
                                </tr><!-- tr Finish -->
                                
                                <tr><!-- tr Begin -->
                                    
                                    <td> Shipping and Handling </td>
-                                   <td> ৳0 </td>
+                                   <td> $0 </td>
                                    
                                </tr><!-- tr Finish -->
                                
                                <tr><!-- tr Begin -->
                                    
                                    <td> Tax </td>
-                                   <th> ৳0 </th>
+                                   <th> $0 </th>
                                    
                                </tr><!-- tr Finish -->
                                
                                <tr class="total"><!-- tr Begin -->
                                    
                                    <td> Total </td>
-                                   <th> ৳<?php echo $total; ?> </th>
+                                   <th> $<?php echo $total; ?> </th>
                                    
                                </tr><!-- tr Finish -->
                                
@@ -546,4 +664,3 @@
     
     
 </body>
-</html>

@@ -32,13 +32,7 @@
            
            <div class="col-md-9"><!-- col-md-9 Begin -->
              
-             <?php 
-               
-                if(!isset($_GET['p_cat'])){
-                    
-                    if(!isset($_GET['cat'])){
-              
-                      echo "
+            
 
                        <div class='box'><!-- box Begin -->
                            <h1>Shop</h1>
@@ -47,164 +41,20 @@
                            </p>
                        </div><!-- box Finish -->
 
-                       ";
-                        
-                    }
-                   
-                   }
                
-               ?>
-               
-               <div class="row"><!-- row Begin -->
-               
-                   <?php 
-                   
-                        if(!isset($_GET['p_cat'])){
-                            
-                         if(!isset($_GET['cat'])){
-                            
-                            $per_page=6; 
-                             
-                            if(isset($_GET['page'])){
-                                
-                                $page = $_GET['page'];
-                                
-                            }else{
-                                
-                                $page=1;
-                                
-                            }
-                            
-                            $start_from = ($page-1) * $per_page;
-                             
-                            $get_products = "select * from products order by 1 DESC LIMIT $start_from,$per_page";
-                             
-                            $run_products = mysqli_query($con,$get_products);
-                             
-                            while($row_products=mysqli_fetch_array($run_products)){
-                                
-                                $pro_id = $row_products['product_id'];
-        
-                                $pro_title = $row_products['product_title'];
+               <div id="products" class="row"><!-- row Begin -->
 
-                                $pro_price = $row_products['product_price'];
-
-                                $pro_img1 = $row_products['product_img1'];
-                                
-                                echo "
-                                
-                                    <div class='col-md-4 col-sm-6 center-responsive'>
-                                    
-                                        <div class='product'>
-                                        
-                                            <a href='details.php?pro_id=$pro_id'>
-                                            
-                                                <img class='img-responsive' src='admin_area/product_images/$pro_img1'>
-                                            
-                                            </a>
-                                            
-                                            <div class='text'>
-                                            
-                                                <h3>
-                                                
-                                                    <a href='details.php?pro_id=$pro_id'> $pro_title </a>
-                                                
-                                                </h3>
-                                            
-                                                <p class='price'>
-
-                                                    ৳ $pro_price
-
-                                                </p>
-
-                                                <p class='buttons'>
-
-                                                    <a class='btn btn-default' href='details.php?pro_id=$pro_id'>
-
-                                                        View Details
-
-                                                    </a>
-
-                                                    <a class='btn btn-primary' href='details.php?pro_id=$pro_id'>
-
-                                                        <i class='fa fa-shopping-cart'></i> Add To Cart
-
-                                                    </a>
-
-                                                </p>
-                                            
-                                            </div>
-                                        
-                                        </div>
-                                    
-                                    </div>
-                                
-                                ";
-                                
-                        }
-                        
-                   ?>
+                    <?php getProducts(); ?>
                
                </div><!-- row Finish -->
                
                <center>
                    <ul class="pagination"><!-- pagination Begin -->
-					 <?php
-                             
-                    $query = "select * from products";
-                             
-                    $result = mysqli_query($con,$query);
-                             
-                    $total_records = mysqli_num_rows($result);
-                             
-                    $total_pages = ceil($total_records / $per_page);
-                             
-                        echo "
-                        
-                            <li>
-                            
-                                <a href='shop.php?page=1'> ".'First Page'." </a>
-                            
-                            </li>
-                        
-                        ";
-                             
-                        for($i=1; $i<=$total_pages; $i++){
-                            
-                              echo "
-                        
-                            <li>
-                            
-                                <a href='shop.php?page=".$i."'> ".$i." </a>
-                            
-                            </li>
-                        
-                        ";  
-                            
-                        };
-                             
-                        echo "
-                        
-                            <li>
-                            
-                                <a href='shop.php?page=$total_pages'> ".'Last Page'." </a>
-                            
-                            </li>
-                        
-                        ";
-                             
-					    	}
-							
-						}
-					 
-					 ?> 
-                       
+                        <?php getPaginator(); ?>
                    </ul><!-- pagination Finish -->
                </center>
-                <?php
-                 getpcatpro();
-                 getcatpro()
-                 ?>
+                
+                <div id="wait" style="position: absolute;top:40%;left:45%;padding:200px 100px 100px 100px;"></div>
                
            </div><!-- col-md-9 Finish -->
            
@@ -219,6 +69,253 @@
     
     <script src="js/jquery-331.min.js"></script>
     <script src="js/bootstrap-337.min.js"></script>
+    <script>
+    
+        $(document).ready(function(){
+
+            // Hide & Show Sidebar Toggle //
+
+            $('.nav-toggle').click(function(){
+                
+                $('.panel-collapse,.collapse-data').slideToggle(700,function(){
+
+                    if($(this).css('display')=='none'){
+
+                        $(".hide-show").html('Show');
+
+                    }else{
+
+                        $(".hide-show").html('Hide');
+
+                    }
+
+                });
+
+            });
+
+            // Finish Hide & Show Sidebar Toggle //
+
+            // Search Filters | by Letter // 
+
+            $(function(){
+
+                $.fn.extend({
+
+                    filterTable: function(){
+
+                        return this.each(function(){
+
+                            $(this).on('keyup', function(){
+
+                                var $this = $(this),
+                                search = $this.val().toLowerCase(),
+                                target = $this.attr('data-filters'),
+                                handle = $(target),
+                                rows = handle.find('li a');
+
+                                if(search == ''){
+
+                                    rows.show();
+
+                                }else{
+
+                                    rows.each(function(){
+
+                                        var $this = $(this);
+
+                                        $this.text().toLowerCase().indexOf(search) === -1 ? $this.hide() : $this.show();
+
+                                    });
+
+                                }
+                            });
+
+                        });
+
+                    }
+
+                });
+
+                $('[data-action="filter"][id="dev-table-filter"]').filterTable();
+
+            });
+
+            // Finish Search Filters | by Letter //
+
+        });
+    
+    </script>
+    <script>
+    
+    $(document).ready(function(){
+
+        // getProducts Function Begin //
+
+        function getProducts(){
+
+            // Code For Manufacturers Begin //
+
+            var sPath = '';
+            var aInputs = $('li').find('.get_manufacturer');
+            var aKeys = Array();
+            var aValues = Array();
+
+            iKey = 0;
+
+            $.each(aInputs, function(key, oInput){
+
+                if(oInput.checked){
+
+                    aKeys[iKey] = oInput.value
+
+                };
+
+                iKey++;
+
+            });
+
+            if(aKeys.length>0){
+
+                var sPath = '';
+
+                for(var i = 0; i < aKeys.length; i++){
+
+                    sPath = sPath + 'man[]=' + aKeys[i]+'&';
+
+                }
+
+            }
+
+            // Code For Manufacturers Finish //
+
+            // Code For Product Categories Begin //
+
+            var aInputs = Array();
+            var aInputs = $('li').find('.get_p_cat');
+            var aKeys = Array();
+            var aValues = Array();
+
+            iKey = 0;
+
+            $.each(aInputs, function(key, oInput){
+
+                if(oInput.checked){
+
+                    aKeys[iKey] = oInput.value
+
+                };
+
+                iKey++;
+
+            });
+
+            if(aKeys.length>0){
+
+                var sPath = '';
+
+                for(var i = 0; i < aKeys.length; i++){
+
+                    sPath = sPath + 'p_cat[]=' + aKeys[i]+'&';
+
+                }
+
+            }
+
+            // Code For Product Categories Finish //
+
+            // Code For Categories Begin //
+
+            var aInputs = Array();
+            var aInputs = $('li').find('.get_cat');
+            var aKeys = Array();
+            var aValues = Array();
+
+            iKey = 0;
+
+            $.each(aInputs, function(key, oInput){
+
+                if(oInput.checked){
+
+                    aKeys[iKey] = oInput.value
+
+                };
+
+                iKey++;
+
+            });
+
+            if(aKeys.length>0){
+
+                var sPath = '';
+
+                for(var i = 0; i < aKeys.length; i++){
+
+                    sPath = sPath + 'cat[]=' + aKeys[i]+'&';
+
+                }
+
+            }
+
+            // Code For Categories Finish //
+
+            // Loader When Loading Begin //    
+
+            $('#wait').html('<img src="images/load.gif"');
+
+            // Loader When Loading Finish //  
+
+            $.ajax({
+
+                url:"load.php",
+                method:"POST",
+
+                data: sPath+'sAction=getProducts',
+
+                success:function(data){
+
+                    $('#products').html('');
+                    $('#products').html(data);
+                    $('#wait').empty();
+
+                }
+
+            });
+
+            $.ajax({
+
+                url:"load.php",
+                method:"POST",
+
+                data: sPath+'sAction=getPaginator',
+
+                success:function(data){
+
+                    $('.pagination').html('');
+                    $('.pagination').html(data);
+
+                }
+
+            });
+
+        }
+
+        // getProducts Function Finish //
+
+        $('.get_manufacturer').click(function(){
+            getProducts();
+        });
+
+        $('.get_p_cat').click(function(){
+            getProducts();
+        });
+
+        $('.get_cat').click(function(){
+            getProducts();
+        });
+
+    });
+
+</script>
     
     
 </body>

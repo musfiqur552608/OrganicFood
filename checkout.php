@@ -14,15 +14,8 @@
                     </li>
                 </ul>
            </div>
-           <div class="col-md-3">
-               
-                <?php
-
-                    include("includes/sidebar.php");
-
-                ?>
-           </div>
-           <div class="col-md-9">
+           
+           <div class="col-md-12">
            <?php 
                 if(!isset($_SESSION['customer_email'])){
                     include("customer/customer_login.php");

@@ -434,3 +434,135 @@ body {
 #copyright p {
     margin: 0px;
 }
+
+.nav.category-menu {
+    margin-top: -26px;
+}
+
+.scroll-menu {
+    height: 260px;
+    overflow-y: scroll;
+}
+
+.checkbox span {
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    padding-left: 5px;
+}
+
+.checkbox span::before {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    width: 17px;
+    height: 17px;
+    left: 0;
+    margin-left: -20px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    transition: border 0.2s ease-in-out, color 0.2s ease-in-out;
+    background: #fff;
+}
+
+.checkbox span::after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    left: 0;
+    top: 0;
+    margin-left: -20px;
+    padding-left: 3px;
+    padding-top: 1px;
+    font-size: 11px;
+    color: #555;
+}
+
+.checkbox input[type='checkbox'] {
+    opacity: 0;
+    z-index: 1;
+    cursor: pointer;
+}
+
+.checkbox input[type='checkbox']:focus+span::before {
+    outline: thin dotted;
+    outline: 5px auto;
+    outline-offset: -2px;
+}
+
+.checkbox input[type='checkbox']:checked+span::after {
+    font-family: "FontAwesome";
+    content: "\f00c";
+}
+
+.checkbox-primary input[type='checkbox']:checked+span::before {
+    background-color: #337ab7;
+    border-color: #337ab7;
+}
+
+.checkbox-primary input[type='checkbox']:checked+span::after {
+    color: #fff;
+}
+
+.product a img.img-responsive {
+    max-height: 252px;
+    width: 100%;
+}
+
+
+/* styling the label begin */
+
+.label {
+    color: #000;
+    text-transform: uppercase;
+    font-size: 18px;
+    font-weight: 700;
+    position: absolute;
+    top: 10px;
+    padding-left: 51px;
+    z-index: 20;
+}
+
+.label .labelBackground {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.label .theLabel {
+    position: relative;
+    width: 100px;
+    padding: 6px 50px 6px 15px;
+    margin: 10px 50px 10px -71px;
+    color: #fff;
+    text-shadow: 3px 3px 3px grey;
+}
+
+.label.sale .theLabel {
+    background: rgb(255, 0, 64);
+}
+
+.label.new .theLabel {
+    background: #4fbfa8;
+}
+
+.label .theLabel:before,
+.label .theLabel:after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+}
+
+.label .theLabel:after {
+    left: 0;
+    top: 100%;
+    border-width: 5px 10px;
+    border-style: solid;
+    border-color: #000 #000 transparent transparent;
+}
+
+
+/* styling the label finish */

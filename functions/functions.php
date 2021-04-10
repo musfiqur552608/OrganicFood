@@ -2,6 +2,8 @@
 
 $db = mysqli_connect("localhost","root","","ecom_store");
 
+/// begin getRealIpUser functions ///
+
 function getRealIpUser(){
     
     switch(true){
@@ -16,48 +18,8 @@ function getRealIpUser(){
     
 }
 
-/// begin add_cart functions ///
-
-function add_cart(){
-    
-    global $db;
-    
-    if(isset($_GET['add_cart'])){
-        
-        $ip_add = getRealIpUser();
-        
-        $p_id = $_GET['add_cart'];
-        
-        $product_qty = $_POST['product_qty'];
-        
-        $product_size = $_POST['product_size'];
-        
-        $check_product = "select * from cart where ip_add='$ip_add' AND p_id='$p_id'";
-        
-        $run_check = mysqli_query($db,$check_product);
-        
-        if(mysqli_num_rows($run_check)>0){
-            
-            echo "<script>alert('This product has already added in cart')</script>";
-            echo "<script>window.open('details.php?pro_id=$p_id','_self')</script>";
-            
-        }else{
-            
-            $query = "insert into cart (p_id,ip_add,qty,size) values ('$p_id','$ip_add','$product_qty','$product_size')";
-            
-            $run_query = mysqli_query($db,$query);
-            
-            echo "<script>window.open('details.php?pro_id=$p_id','_self')</script>";
-            
-        }
-        
-    }
-    
-}
-
-/// finish add_cart functions ///
-
 /// finish getRealIpUser functions ///
+
 /// begin getPro functions ///
 
 function getPro(){
@@ -74,9 +36,56 @@ function getPro(){
         
         $pro_title = $row_products['product_title'];
         
+        $pro_url = $row_products['product_url'];
+        
         $pro_price = $row_products['product_price'];
+
+        $pro_sale_price = $row_products['product_sale'];
         
         $pro_img1 = $row_products['product_img1'];
+        
+        $pro_label = $row_products['product_label'];
+        
+        $manufacturer_id = $row_products['manufacturer_id'];
+
+        $get_manufacturer = "select * from manufacturers where manufacturer_id='$manufacturer_id'";
+
+        $run_manufacturer = mysqli_query($db,$get_manufacturer);
+
+        $row_manufacturer = mysqli_fetch_array($run_manufacturer);
+
+        $manufacturer_title = $row_manufacturer['manufacturer_title'];
+
+        if($pro_label == "sale"){
+
+            $product_price = " <del> ৳ $pro_price </del> ";
+
+            $product_sale_price = "/ ৳ $pro_sale_price ";
+
+        }else{
+
+            $product_price = "  ৳ $pro_price  ";
+
+            $product_sale_price = "";
+
+        }
+
+        if($pro_label == ""){
+
+        }else{
+
+            $product_label = "
+            
+                <a href='#' class='label $pro_label'>
+                
+                    <div class='theLabel'> $pro_label </div>
+                    <div class='labelBackground'>  </div>
+                
+                </a>
+            
+            ";
+
+        }
         
         echo "
         
@@ -84,17 +93,23 @@ function getPro(){
         
             <div class='product'>
             
-                <a href='details.php?pro_id=$pro_id'>
+                <a href='$pro_url'>
                 
                     <img class='img-responsive' src='admin_area/product_images/$pro_img1'>
                 
                 </a>
                 
                 <div class='text'>
+
+                <center>
+                
+                    <p class='btn btn-primary'> $manufacturer_title </p>
+                
+                </center>
                 
                     <h3>
             
-                        <a href='details.php?pro_id=$pro_id'>
+                        <a href='$pro_url'>
 
                             $pro_title
 
@@ -104,19 +119,19 @@ function getPro(){
                     
                     <p class='price'>
                     
-                        ৳ $pro_price
+                    $product_price &nbsp;$product_sale_price
                     
                     </p>
                     
                     <p class='button'>
                     
-                        <a class='btn btn-default' href='details.php?pro_id=$pro_id'>
+                        <a class='btn btn-default' href='$pro_url'>
 
                             View Details
 
                         </a>
                     
-                        <a class='btn btn-primary' href='details.php?pro_id=$pro_id'>
+                        <a class='btn btn-primary' href='$pro_url'>
 
                             <i class='fa fa-shopping-cart'></i> Add to Cart
 
@@ -125,6 +140,8 @@ function getPro(){
                     </p>
                 
                 </div>
+
+                $product_label
             
             </div>
         
@@ -202,87 +219,214 @@ function getCats(){
     
 /// finish getCats functions ///
 
-/// begin getpcatpro functions ///
+/// finish getRealIpUser functions ///
 
-function getpcatpro(){
+function items(){
     
     global $db;
     
-    if(isset($_GET['p_cat'])){
+    $ip_add = getRealIpUser();
+    
+    $get_items = "select * from cart where ip_add='$ip_add'";
+    
+    $run_items = mysqli_query($db,$get_items);
+    
+    $count_items = mysqli_num_rows($run_items);
+    
+    echo $count_items;
+    
+}
+
+/// finish getRealIpUser functions ///
+
+/// begin total_price functions ///
+
+function total_price(){
+    
+    global $db;
+    
+    $ip_add = getRealIpUser();
+    
+    $total = 0;
+    
+    $select_cart = "select * from cart where ip_add='$ip_add'";
+    
+    $run_cart = mysqli_query($db,$select_cart);
+    
+    while($record=mysqli_fetch_array($run_cart)){
         
-        $p_cat_id = $_GET['p_cat'];
+        $pro_id = $record['p_id'];
         
-        $get_p_cat ="select * from product_categories where p_cat_id='$p_cat_id'";
-        
-        $run_p_cat = mysqli_query($db,$get_p_cat);
-        
-        $row_p_cat = mysqli_fetch_array($run_p_cat);
-        
-        $p_cat_title = $row_p_cat['p_cat_title'];
-        
-        $p_cat_desc = $row_p_cat['p_cat_desc'];
-        
-        $get_products ="select * from products where p_cat_id='$p_cat_id'";
-        
-        $run_products = mysqli_query($db,$get_products);
-        
-        $count = mysqli_num_rows($run_products);
-        
-        if($count==0){
+        $pro_qty = $record['qty'];
             
-            echo "
+        $sub_total = $record['p_price']*$pro_qty;
             
-                <div class='box'>
-                
-                    <h1> No Product Found In This Product Categories </h1>
-                
-                </div>
-            
-            ";
-            
+        $total += $sub_total;
+        
+    }
+    
+    echo "$" . $total;
+    
+}
+
+/// finish total_price functions ///
+
+/// Begin getProducts(); functions ///
+
+function getProducts(){
+
+    global $db;
+    $aWhere = array();
+
+    /// Begin for Manufacturer ///
+    
+    if(isset($_REQUEST['man'])&&is_array($_REQUEST['man'])){
+
+        foreach($_REQUEST['man'] as $sKey=>$sVal){
+
+            if((int)$sVal!=0){
+
+                $aWhere[] = 'manufacturer_id='.(int)$sVal;
+
+            }
+
+        }
+
+    }
+
+    /// Finish for Manufacturer ///  
+
+    /// Begin for Product Categories /// 
+
+    if(isset($_REQUEST['p_cat'])&&is_array($_REQUEST['p_cat'])){
+
+        foreach($_REQUEST['p_cat'] as $sKey=>$sVal){
+
+            if((int)$sVal!=0){
+
+                $aWhere[] = 'p_cat_id='.(int)$sVal;
+
+            }
+
+        }
+
+    }    
+
+    /// Finish for Product Categories /// 
+
+    /// Begin for Categories /// 
+
+    if(isset($_REQUEST['cat'])&&is_array($_REQUEST['cat'])){
+
+        foreach($_REQUEST['cat'] as $sKey=>$sVal){
+
+            if((int)$sVal!=0){
+
+                $aWhere[] = 'cat_id='.(int)$sVal;
+
+            }
+
+        }
+
+    }    
+
+    /// Finish for Categories /// 
+
+    $per_page=6;
+
+    if(isset($_GET['page'])){
+
+        $page = $_GET['page'];
+
+    }else{
+        $page=1;
+    }
+
+    $start_from = ($page-1) * $per_page;
+    $sLimit = " order by 1 DESC LIMIT $start_from,$per_page";
+    $sWhere = (count($aWhere)>0?' WHERE '.implode(' or ',$aWhere):'').$sLimit;
+    $get_products = "select * from products ".$sWhere;
+    $run_products = mysqli_query($db,$get_products);
+    while($row_products=mysqli_fetch_array($run_products)){
+        
+        $pro_id = $row_products['product_id'];
+        
+        $pro_title = $row_products['product_title'];
+        
+        $pro_price = $row_products['product_price'];
+
+        $pro_sale_price = $row_products['product_sale'];
+
+        $pro_url = $row_products['product_url'];
+        
+        $pro_img1 = $row_products['product_img1'];
+        
+        $pro_label = $row_products['product_label'];
+        
+        $manufacturer_id = $row_products['manufacturer_id'];
+
+        $get_manufacturer = "select * from manufacturers where manufacturer_id='$manufacturer_id'";
+
+        $run_manufacturer = mysqli_query($db,$get_manufacturer);
+
+        $row_manufacturer = mysqli_fetch_array($run_manufacturer);
+
+        $manufacturer_title = $row_manufacturer['manufacturer_title'];
+
+        if($pro_label == "sale"){
+
+            $product_price = " <del> ৳ $pro_price </del> ";
+
+            $product_sale_price = "/ ৳ $pro_sale_price ";
+
         }else{
+
+            $product_price = "  ৳ $pro_price  ";
+
+            $product_sale_price = "";
+
+        }
+
+        if($pro_label == ""){
+
+        }else{
+
+            $product_label = "
             
-            echo "
-            
-                <div class='box'>
+                <a href='#' class='label $pro_label'>
                 
-                    <h1> $p_cat_title </h1>
-                    
-                    <p> $p_cat_desc </p>
+                    <div class='theLabel'> $pro_label </div>
+                    <div class='labelBackground'>  </div>
                 
-                </div>
+                </a>
             
             ";
-            
+
         }
         
-        while($row_products=mysqli_fetch_array($run_products)){
-            
-            $pro_id = $row_products['product_id'];
+        echo " 
         
-            $pro_title = $row_products['product_title'];
-
-            $pro_price = $row_products['product_price'];
-
-            $pro_img1 = $row_products['product_img1'];
-            
-            echo "
-            
-                <div class='col-md-4 col-sm-6 center-responsive'>
+        <div class='col-md-4 col-sm-6 center-responsive'>
         
             <div class='product'>
             
-                <a href='details.php?pro_id=$pro_id'>
+                <a href='$pro_url'>
                 
                     <img class='img-responsive' src='admin_area/product_images/$pro_img1'>
                 
                 </a>
                 
                 <div class='text'>
+
+                <center>
+                
+                    <p class='btn btn-primary'> $manufacturer_title </p>
+                
+                </center>
                 
                     <h3>
             
-                        <a href='details.php?pro_id=$pro_id'>
+                        <a href='$pro_url'>
 
                             $pro_title
 
@@ -292,19 +436,19 @@ function getpcatpro(){
                     
                     <p class='price'>
                     
-                        ৳ $pro_price
+                    $product_price &nbsp;$product_sale_price
                     
                     </p>
                     
                     <p class='button'>
                     
-                        <a class='btn btn-default' href='details.php?pro_id=$pro_id'>
+                        <a class='btn btn-default' href='$pro_url'>
 
                             View Details
 
                         </a>
                     
-                        <a class='btn btn-primary' href='details.php?pro_id=$pro_id'>
+                        <a class='btn btn-primary' href='$pro_url'>
 
                             <i class='fa fa-shopping-cart'></i> Add to Cart
 
@@ -313,187 +457,121 @@ function getpcatpro(){
                     </p>
                 
                 </div>
+
+                $product_label
             
             </div>
         
         </div>
-            
-            ";
-            
-        }
+        
+        ";
         
     }
-    
+
 }
 
-/// finish getpcatpro functions ///
+/// finish getProducts(); functions ///
 
-/// begin getcatpro functions ///
+/// begin getPaginator(); functions ///
 
-function getcatpro(){
-    
-    global $db;
-    
-    if(isset($_GET['cat'])){
-        
-        $cat_id = $_GET['cat'];
-        
-        $get_cat = "select * from categories where cat_id='$cat_id'";
-        
-        $run_cat = mysqli_query($db,$get_cat);
-        
-        $row_cat = mysqli_fetch_array($run_cat);
-        
-        $cat_title = $row_cat['cat_title'];
-        
-        $cat_desc = $row_cat['cat_desc'];
-        
-        $get_cat = "select * from products where cat_id='$cat_id' LIMIT 1,6";
-        
-        $run_products = mysqli_query($db,$get_cat);
-        
-        $count = mysqli_num_rows($run_products);
-        
-        if($count==0){
-            
-            
-            echo "
-            
-                <div class='box'>
-                
-                    <h1> No Product Found In This Category </h1>
-                
-                </div>
-            
-            ";
-            
-        }else{
-            
-            echo "
-            
-                <div class='box'>
-                
-                    <h1> $cat_title </h1>
-                    
-                    <p> $cat_desc </p>
-                
-                </div>
-            
-            ";
-            
-        }
-        
-        while($row_products=mysqli_fetch_array($run_products)){
-            
-            $pro_id = $row_products['product_id'];
-            
-            $pro_title = $row_products['product_title'];
-            
-            $pro_price = $row_products['product_price'];
-            
-            $pro_desc = $row_products['product_desc'];
-            
-            $pro_img1 = $row_products['product_img1'];
-            
-            echo "
-            
-                <div class='col-md-4 col-sm-6 center-responsive'>
-                                    
-                    <div class='product'>
-                                        
-                        <a href='details.php?pro_id=$pro_id'>
-                                            
-                            <img class='img-responsive' src='admin_area/product_images/$pro_img1'>
-                                            
-                        </a>
-                                            
-                        <div class='text'>
-                                            
-                            <h3>
-                                                
-                                <a href='details.php?pro_id=$pro_id'> $pro_title </a>
-                                                
-                            </h3>
-                                            
-                        <p class='price'>
+function getPaginator(){
 
-                            ৳ $pro_price
-
-                        </p>
-
-                            <p class='buttons'>
-
-                                <a class='btn btn-default' href='details.php?pro_id=$pro_id'>
-
-                                View Details
-
-                                </a>
-
-                                <a class='btn btn-primary' href='details.php?pro_id=$pro_id'>
-
-                                <i class='fa fa-shopping-cart'></i> Add To Cart
-
-                                </a>
-
-                            </p>
-                                            
-                        </div>
-                                        
-                    </div>
-                                    
-                </div>
-            
-            ";
-            
-        }
-        
-    }
-    
-}
-
-/// finish getcatpro functions ///
-
-function items(){
     global $db;
 
-    $ip_add = getRealIpUser();
-    $get_items = "select * from cart where ip_add='$ip_add'";
+    $per_page=6;
+    $aWhere = array();
+    $aPath = '';
 
-    $run_items = mysqli_query($db,$get_items);
+    /// Begin for Manufacturer ///
+    
+    if(isset($_REQUEST['man'])&&is_array($_REQUEST['man'])){
 
-    $count_items = mysqli_num_rows($run_items);
+        foreach($_REQUEST['man'] as $sKey=>$sVal){
 
-    echo $count_items;
-}
+            if((int)$sVal!=0){
 
-function total_price(){
-    global $db;
+                $aWhere[] = 'manufacturer_id='.(int)$sVal;
+                $aPath .= 'man[]='.(int)$sVal.'&';
 
-    $ip_add = getRealIpUser();
-
-    $total = 0;
-
-    $select_cart  = "select * from cart where ip_add='$ip_add'";
-
-    $run_cart = mysqli_query($db,$select_cart);
-
-    while($record=mysqli_fetch_array($run_cart)){
-        $pro_id = $record['p_id'];
-        $pro_qty = $record['qty'];
-        $get_price = "select * from products where product_id='$pro_id'";
-        $run_price = mysqli_query($db, $get_price);
-
-        while($row_price=mysqli_fetch_array($run_price)){
-
-            $sub_total = $row_price['product_price']*$pro_qty;
-
-            $total += $sub_total;
+            }
 
         }
+
     }
 
-    echo "৳" . $total;
+    /// Finish for Manufacturer ///  
+
+    /// Begin for Product Categories /// 
+
+    if(isset($_REQUEST['p_cat'])&&is_array($_REQUEST['p_cat'])){
+
+        foreach($_REQUEST['p_cat'] as $sKey=>$sVal){
+
+            if((int)$sVal!=0){
+
+                $aWhere[] = 'p_cat_id='.(int)$sVal;
+                $aPath .= 'p_cat[]='.(int)$sVal.'&';
+
+            }
+
+        }
+
+    }    
+
+    /// Finish for Product Categories /// 
+
+    /// Begin for Categories /// 
+
+    if(isset($_REQUEST['cat'])&&is_array($_REQUEST['cat'])){
+
+        foreach($_REQUEST['cat'] as $sKey=>$sVal){
+
+            if((int)$sVal!=0){
+
+                $aWhere[] = 'cat_id='.(int)$sVal;
+                $aPath .= 'cat[]='.(int)$sVal.'&';
+
+            }
+
+        }
+
+    }    
+
+    /// Finish for Categories ///   
     
+    $sWhere = (count($aWhere)>0?' WHERE '.implode(' or ',$aWhere):'');
+    $query = "select * from products".$sWhere;
+    $result = mysqli_query($db,$query);
+    $total_records = mysqli_num_rows($result);
+    $total_pages = ceil($total_records / $per_page);
+
+    echo "<li> <a href='shop.php?page=1";
+    if(!empty($aPath)){
+
+        echo "&".$aPath;
+
+    }
+
+    echo "'>".'First Page'."</a></li>";
+
+    for($i=1; $i<=$total_pages; $i++){
+
+        echo "<li> <a href='shop.php?page=".$i.(!empty($aPath)?'&'.$aPath:'')."'>".$i."</a></li>";
+
+    };
+
+    echo "<li> <a href='shop.php?page=$total_pages";
+
+    if(!empty($aPath)){
+
+        echo "&".$aPath;
+
+    }
+
+    echo "'>".'Last Page'."</a></li>";
+
 }
+
+/// finish getPaginator(); functions ///
 
 ?>

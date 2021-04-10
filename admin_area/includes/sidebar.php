@@ -97,6 +97,20 @@
                 </ul>
             </li>
             <li>
+                <a href="#" data-toggle="collapse" data-target="#manufacturer">
+                    <i class="fa fa-fw fa-star"></i> Manufacturer
+                    <i class="fa fa-fw fa-caret-down"></i>
+                </a>
+                <ul class="collapse" id="manufacturer">
+                    <li>
+                        <a href="index.php?insert_manufacturer"> Insert Manufacturer </a>
+                    </li>
+                    <li>
+                        <a href="index.php?view_manufacturers"> View Manufacturers </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
                 <a href="#" data-toggle="collapse" data-target="#p_cat">
                     <i class="fa fa-fw fa-edit"></i> Products Categories
                     <i class="fa fa-fw fa-caret-down"></i>
@@ -153,6 +167,20 @@
                 </ul>
             </li>
             <li>
+                <a href="#" data-toggle="collapse" data-target="#coupon">
+                    <i class="fa fa-fw fa-book"></i> Coupons
+                    <i class="fa fa-fw fa-caret-down"></i>
+                </a>
+                <ul class="collapse" id="coupon">
+                    <li>
+                        <a href="index.php?insert_coupon"> Insert Coupon </a>
+                    </li>
+                    <li>
+                        <a href="index.php?view_coupons"> View Coupons </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
                 <a href="#" data-toggle="collapse" data-target="#terms">
                     <i class="fa fa-fw fa-table"></i> Terms
                     <i class="fa fa-fw fa-caret-down"></i>
@@ -179,6 +207,11 @@
             <li>
                 <a href="index.php?view_payments">
                     <i class="fa fa-fw fa-money"></i> View Payments
+                </a>
+            </li>
+            <li>
+                <a href="index.php?edit_css">
+                    <i class="fa fa-fw fa-pencil"></i> CSS Editor
                 </a>
             </li>
             <li>

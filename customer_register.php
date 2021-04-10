@@ -14,15 +14,8 @@
                     </li>
                 </ul>
            </div>
-           <div class="col-md-3">
-               
-                <?php
-
-                    include("includes/sidebar.php");
-
-                ?>
-           </div>
-           <div class="col-md-9">
+           
+           <div class="col-md-12">
                 <div class="box">
                     <div class="box-header">
                         <center>
