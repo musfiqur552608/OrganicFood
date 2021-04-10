@@ -180,7 +180,7 @@ include("functions/functions.php");
                        
                    </form><!-- navbar-form Finish -->
                    
-               </div><!-- collapse clearfix Finish -->
+               </div>
                
            </div><!-- navbar-collapse collapse Finish -->
            

@@ -265,7 +265,7 @@ function total_price(){
         
     }
     
-    echo "$" . $total;
+    echo "৳" . $total;
     
 }
 
